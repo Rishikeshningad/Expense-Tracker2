@@ -5,22 +5,9 @@ import { expenseActions } from "../components/store/expenseReducer";
 import Premium from "../pages/Premium";
 import { cartActions } from "../components/store/cart-slice";
 
-const DUMMY_PRODUCTS = [
-  { 
-   id: 'p1',
-   price: 6, 
-   title: 'My First Book',
-  description: 'The First Book I ever wrote',
-  },
-  { 
-    id: 'p2',
-    price: 5, 
-    title: 'My Second Book',
-   description: 'The Second Book I ever wrote',
-   },
-];
 
-const ExpenseItems = (props) => {
+
+const ExpenseItems = () => {
   
   const TotalExpense = useSelector((state) => state.expense.totalexpense);
 
@@ -44,14 +31,14 @@ const ExpenseItems = (props) => {
   
   // const { title, price, description, id} = props;
 
-  const addToCartHandler = (id, title, price, description) => {
+  const addToCartHandler = (id, title, description, price ) => {
     dispatch(
       cartActions.addItemToCart({
       id,
       title,
-      price,
       description,
-    }));
+      price,
+      }));
     console.log(id, title, price, description);
   };
 
@@ -79,7 +66,7 @@ const ExpenseItems = (props) => {
 
     if (edit) {
       fetch(
-        `https://expensetracker-1293b-default-rtdb.firebaseio.com/expenses/${editId}.json`,
+        `https://expense-3ec64-default-rtdb.firebaseio.com/expenses/${editId}.json`,
         {
           method: "PUT",
           body: JSON.stringify({
@@ -100,7 +87,7 @@ const ExpenseItems = (props) => {
       });
     } else {
       fetch(
-        "https://expensetracker-1293b-default-rtdb.firebaseio.com/expenses.json",
+        "https://expense-3ec64-default-rtdb.firebaseio.com/expenses.json",
         {
           method: "POST",
           body: JSON.stringify({
@@ -147,7 +134,7 @@ const ExpenseItems = (props) => {
 
   useEffect(() => {
     fetch(
-      "https://expensetracker-1293b-default-rtdb.firebaseio.com/expenses.json",
+      "https://expense-3ec64-default-rtdb.firebaseio.com/expenses.json",
       {
         method: "GET",
         headers: {
@@ -195,7 +182,7 @@ const ExpenseItems = (props) => {
     setExpense(updated);
 
     fetch(
-      `https://expensetracker-1293b-default-rtdb.firebaseio.com/expenses/${id}.json`,
+      `https://expense-3ec64-default-rtdb.firebaseio.com/expenses/${id}.json`,
       {
         method: "DELETE",
         headers: {
@@ -220,7 +207,7 @@ const ExpenseItems = (props) => {
     setEditId(id);
 
     fetch(
-      `https://expensetracker-1293b-default-rtdb.firebaseio.com/expenses/${id}.json`,
+      `https://expense-3ec64-default-rtdb.firebaseio.com/expenses/${id}.json`,
       { method: "GET" }
     )
       .then((res) => {
@@ -309,12 +296,12 @@ const ExpenseItems = (props) => {
                     Edit
                   </button>
                   <button 
-                  onClick={(props) => {
+                  onClick={() => {
                     addToCartHandler(
                       item.id,
                       item.title, 
+                      item.description,
                       item.price, 
-                      item.description, 
                      )
                     }}>
                     Add to Cart

@@ -6,20 +6,20 @@ const CartItem = (props) => {
   const { description, title, quantity, total, price, id } = props.item;
   const dispatch = useDispatch();
 
+  console.log("items:", props.item);
+
   const removeItemHandler = () => {
-    dispatch(cartActions.removeItemFromCart(
-      id,
-      ));
+    dispatch(cartActions.removeItemFromCart(id));
   };
   
   const addItemHandler = () => {
-    dispatch(cartActions.addItemToCart(
+    dispatch(cartActions.addItemToCart({
       description,
       id,
       price,
       quantity,
       title,
-     ));
+   } ));
   };
   // const addQuanity = (id) => {
   //   item = items.find((item) => id == item.id)

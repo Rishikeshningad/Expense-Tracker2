@@ -9,12 +9,21 @@ initialState: {
 reducers:{
   addItemToCart(state, action){
     const newItem = action.payload;
-    const existingItem = state.items.find((item) => item.id === newItem.id);
+    console.log({ newItem });
+
+    const tempArr = [...state.items];
+    const existingItemIdx = tempArr.findIndex(
+      (item) => item.id === newItem.id);
     state.totalQuantity++;
-    console.log(newItem);
-    console.log(existingItem);
-    console.log(action);
-    if (!existingItem) {
+   // console.log(newItem);
+    console.log(existingItemIdx);
+   // console.log(action);
+    if (existingItemIdx !== -1) {
+      tempArr[existingItemIdx].quantity += 1;
+      tempArr[existingItemIdx].totalPrice += newItem.price;
+      console.log({ tempArr}); 
+      state.items = tempArr;
+    } else {
         state.items.push({
             id: newItem.id,
             price: newItem.price,
@@ -23,17 +32,14 @@ reducers:{
             title: newItem.title,
             description: newItem.description
         });
-    } else {
-        existingItem.quantity++;
-        existingItem.totalPrice = existingItem.totalPrice + newItem.price;
-    }
+    } 
   },
   removeItemFromCart(state, action){
     const id = action.payload;
-    const existingItem = state.items.find(item => item.id === id);
+    const existingItem = state.items.find((item) => item.id === id);
     state.totalQuantity--;
     if (existingItem.quantity === 1) {
-       state.items = state.items.filter(item => item.id !== id);
+       state.items = state.items.filter((item) => item.id !== id);
     } else {
         existingItem.quantity--;
     }

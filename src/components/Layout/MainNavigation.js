@@ -17,6 +17,8 @@ const toggleCartHandler = () => {
 };
 
 const isAuth = useSelector(state => state.auth.isAuthenticated)
+
+ const cartQuantity = useSelector(state => state.cart.totalQuantity)
   return (
     <header className={classes.header}>
       <Link to='/'>
@@ -38,7 +40,7 @@ const isAuth = useSelector(state => state.auth.isAuthenticated)
               {!isAuth && (<li>
                 <button onClick={toggleCartHandler}>
                     <span>Cart</span>
-                    <span>0</span>
+                    <span className={classes.cart}>{cartQuantity}</span>
                 </button>
               </li>)}
         </ul>
