@@ -1,7 +1,7 @@
 import { Switch, Route } from 'react-router-dom';
+//import { useHistory } from 'react-router-dom';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { uiActions } from './components/store/ui-slice';
 import {Fragment, useEffect } from 'react';
 
 import Layout from './components/Layout/Layout';
@@ -13,6 +13,8 @@ import CompleteNow from './components/Layout/CompleteNow';
 import Email from './components/Layout/Email';
 import Cart from './components/Cart/Cart';
 import Notification from './components/Card/Notification';
+import {sendCartData, fetchCartData} from './components/store/cart-action';
+
 
 let isInitial = true;
 
@@ -21,49 +23,34 @@ function App() {
    const showCart = useSelector(state => state.ui.cartIsVisible);
    const cart = useSelector(state => state.cart);
    const notification = useSelector(state => state.ui.notification);
+   const uiAuth = useSelector(state => state.auth.isAuthenticated)
+   //const history = useHistory();
+
+   console.log(uiAuth);
+   
+   useEffect(() => {
+     dispatch(fetchCartData());
+   }, [dispatch]);
 
    useEffect(() => {
-    const sendCartData = async () => {
-      dispatch(uiActions.showNotification({
-        status: 'pending',
-        title: 'Sending...',
-        message: 'Sending cart data!',
-      }));
-      const response = await fetch(
-        'https://expense-3ec64-default-rtdb.firebaseio.com/cart.json', 
-        {
-        method: 'PUT',
-        body: JSON.stringify(cart),
-      });
-    
-
-    if (!response.ok) {
-      throw new Error('Sending cart data failed.');
-      
-    }
-      
-    dispatch(uiActions.showNotification({
-      status: 'success',
-      title: 'Success!',
-      message: 'Sent cart data successfully!',
-    })
-    );
-  };
-
-    if (isInitial) {
+    if (isInitial){
       isInitial = false;
       return;
     }
 
-    sendCartData().catch(error =>{
-      dispatch(uiActions.showNotification({
-        status: 'error',
-        title: 'Error!',
-        message: 'Sent cart data failed!',
-      })
-      );
-    });
+    if (cart.changed) {
+      dispatch(sendCartData(cart));
+    }
+   
    }, [cart, dispatch]);
+
+  // useEffect(() => {
+  //  const token = localStorage.getItem('idToken');
+  //   if(token) {
+  //     dispatch(authActions.logout);
+  //      history.push('/login');
+  //   }
+  // });
 
   return (
     <Fragment>
@@ -78,14 +65,15 @@ function App() {
        {showCart && <Cart/>} 
       
       <Switch>
-      
+      { !uiAuth && <Route path='*'> <Login/> </Route>}
+       {uiAuth && <Fragment>
         <Route path='/' exact> <HomePage/>  </Route>
         <Route path='/signup'> <SignPage/> </Route>
-        <Route path='/login'> <Login/> </Route>
+       
         <Route path='/complete'> <Complete/> </Route>
         <Route path='/complete_now'> <CompleteNow/> </Route>
         <Route path='/email'> <Email/> </Route>
-        
+        </Fragment>}
       </Switch>
     </Layout>
     </Fragment>

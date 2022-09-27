@@ -5,8 +5,15 @@ name: 'cart',
 initialState: {
     items: [],
     totalQuantity: 0,
+    changed: false,
 },
-reducers:{
+reducers: {
+  //  We are not using replaceCart due to Error!
+  // replaceCart(state, action) {
+  //     state.totalQuantity = action.payload.totalQuantity;
+  //     state.items = action.payload.items;
+  // },
+
   addItemToCart(state, action){
     const newItem = action.payload;
     console.log({ newItem });
@@ -15,6 +22,7 @@ reducers:{
     const existingItemIdx = tempArr.findIndex(
       (item) => item.id === newItem.id);
     state.totalQuantity++;
+    state.changed = true;
    // console.log(newItem);
     console.log(existingItemIdx);
    // console.log(action);
@@ -34,10 +42,12 @@ reducers:{
         });
     } 
   },
+  
   removeItemFromCart(state, action){
     const id = action.payload;
     const existingItem = state.items.find((item) => item.id === id);
     state.totalQuantity--;
+    state.changed = true;
     if (existingItem.quantity === 1) {
        state.items = state.items.filter((item) => item.id !== id);
     } else {
@@ -46,6 +56,8 @@ reducers:{
   }
 },
 });
+
+
 
 export const cartActions = cartSlice.actions;
 

@@ -61,6 +61,7 @@ const Login = () => {
           }
         })
          .then((data) => {
+          localStorage.setItem("idToken", data.idToken);
             console.log(data.idToken);
             history.push('/complete');
          })
