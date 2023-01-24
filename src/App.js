@@ -54,7 +54,7 @@ function App() {
 
   return (
     <Fragment>
-      {notification && 
+      {uiAuth && notification && 
       <Notification 
       status={notification.status} 
       title={notification.title} 
@@ -65,10 +65,16 @@ function App() {
        {showCart && <Cart/>} 
       
       <Switch>
-      { !uiAuth && <Route path='*'> <Login/> </Route>}
+      { !uiAuth &&
+       <>
+        <Route path='*' exact> <Login/> </Route>
+        <Route path='/signup'> <SignPage/> </Route>
+       </>
+      }
+     
        {uiAuth && <Fragment>
         <Route path='/' exact> <HomePage/>  </Route>
-        <Route path='/signup'> <SignPage/> </Route>
+       
        
         <Route path='/complete'> <Complete/> </Route>
         <Route path='/complete_now'> <CompleteNow/> </Route>
