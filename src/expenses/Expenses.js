@@ -66,7 +66,7 @@ const ExpenseItems = () => {
 
     if (edit) {
       fetch(
-        `https://expense-6bc0e-default-rtdb.firebaseio.com/${editId}.json`,
+        `https://expense-6bc0e-default-rtdb.firebaseio.com/expenses/${editId}.json`,
         {
           method: "PUT",
           body: JSON.stringify({
@@ -182,7 +182,7 @@ const ExpenseItems = () => {
     setExpense(updated);
 
     fetch(
-      `https://expense-6bc0e-default-rtdb.firebaseio.com/${id}.json`,
+      `https://expense-6bc0e-default-rtdb.firebaseio.com/expenses/${id}.json`,
       {
         method: "DELETE",
         headers: {
