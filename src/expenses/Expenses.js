@@ -66,7 +66,7 @@ const ExpenseItems = () => {
 
     if (edit) {
       fetch(
-        `https://expense-6bc0e-default-rtdb.firebaseio.com/expenses/${editId}.json`,
+        `https://ex-pense-76286-default-rtdb.firebaseio.com/expenses/${editId}.json`,
         {
           method: "PUT",
           body: JSON.stringify({
@@ -87,7 +87,7 @@ const ExpenseItems = () => {
       });
     } else {
       fetch(
-        "https://expense-6bc0e-default-rtdb.firebaseio.com/expenses.json",
+        "https://ex-pense-76286-default-rtdb.firebaseio.com/expenses.json",
         {
           method: "POST",
           body: JSON.stringify({
@@ -134,7 +134,7 @@ const ExpenseItems = () => {
 
   useEffect(() => {
     fetch(
-      "https://expense-6bc0e-default-rtdb.firebaseio.com/expenses.json",
+      "https://ex-pense-76286-default-rtdb.firebaseio.com/expenses.json",
       {
         method: "GET",
         headers: {
@@ -182,7 +182,7 @@ const ExpenseItems = () => {
     setExpense(updated);
 
     fetch(
-      `https://expense-6bc0e-default-rtdb.firebaseio.com/expenses/${id}.json`,
+      `https://ex-pense-76286-default-rtdb.firebaseio.com/expenses/${id}.json`,
       {
         method: "DELETE",
         headers: {
@@ -207,7 +207,7 @@ const ExpenseItems = () => {
     setEditId(id);
 
     fetch(
-      `https://expense-6bc0e-default-rtdb.firebaseio.com/expenses/${id}.json`,
+      `https://ex-pense-76286-default-rtdb.firebaseio.com/expenses/${id}.json`,
       { method: "GET" }
     )
       .then((res) => {
